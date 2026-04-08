@@ -1,20 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(req: NextRequest) {
-  const session = req.cookies.get("eh_session")?.value;
-  const pathname = req.nextUrl.pathname;
-
-  // Rutas públicas
-  if (pathname.startsWith("/login") || pathname.startsWith("/api/login")) {
-    if (session) return NextResponse.redirect(new URL("/", req.url));
-    return NextResponse.next();
-  }
-
-  // Proteger todo lo demás
-  if (!session) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
+// Landing page pública — sin autenticación
+export function proxy(_req: NextRequest) {
   return NextResponse.next();
 }
 
